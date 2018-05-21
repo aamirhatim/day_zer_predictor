@@ -17,3 +17,11 @@
 #### Per Capita Consumption 
 - listed for most recent years
 - total water consumption per capita (m^3/inhab/year) [AQUASTAT]
+
+# Initial Pre-processing Steps
+
+#### 1. Filtering of precipitation data 
+- filtering of data with pandas to obtain records for latest year and annual precipitation in mm/yr
+
+#### 2. Filtering of water resources data
+- filtering of data with pandas to obtain records for latest year and total renewable water resources per capita in m^3/inhab/yr
