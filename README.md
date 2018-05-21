@@ -16,4 +16,4 @@
 
 #### Per Capita Consumption 
 - listed for most recent years
-- unit is cubic meters/person/year
+- total water consumption per capita (m^3/inhab/year) [AQUASTAT]
