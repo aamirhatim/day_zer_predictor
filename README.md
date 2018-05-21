@@ -13,3 +13,7 @@
 - water dependency ratio (%) [AQUASTAT]
 - total renewable water resources per capita (m^3/inhab/yr) [AQUASTAT]
 - total exploitable water resources (10^9 m^3/yr) [AQUASTAT]
+
+#### Per Capita Consumption 
+- listed for most recent years
+- unit is cubic meters/person/year
