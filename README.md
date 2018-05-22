@@ -19,4 +19,4 @@
 - AQUASTAT
 
 #### Processing
-Data from our sources were presented in several different formats and contained extra information that was not useful for our application, so we developed data purification scripts to keep only what was necessary. [`parse_csv.py`] contains functions to parse raw CSV files from our sources into datasets that are compatible with our machine learning application.
+Data from our sources were presented in several different formats and contained extra information that was not useful for our application, so we developed data purification scripts to keep only what was necessary. [`parse_csv`](parse_csv.py) contains functions to parse raw CSV files from our sources into datasets that are compatible with our machine learning application.
