@@ -46,9 +46,13 @@ def aquastat(filepath, output):
     print('CSV exported to', output)
 
 def main():
-    filepath = sys.argv[1]
-    output = sys.argv[2]
-    aquastat(filepath, output)
+    source = sys.argv[1]
+    filepath = sys.argv[2]
+    output = sys.argv[3]
 
+    if source == 'aquastat':
+        aquastat(filepath, output)
+    else:
+        print('Uknown source!')
 if __name__ == "__main__":
     main()
