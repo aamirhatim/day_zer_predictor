@@ -8,13 +8,12 @@ import sys
 
 def aquastat(filepath, output):
     # Import list of countries
-    c = pd.read_csv('data/countries.csv')
-    c.rename(columns = {'Area':'Country', 'Area Id':'Area_Id'}, inplace = True)
+    c = pd.read_csv('data/raw/countries.csv')
     # List of country IDs
     countries = c.as_matrix(c.columns[:1]).T[0]
 
     # Import CSV
-    print('Parsing AQUASTAT CSV', filepath, '...')
+    print('Parsing AQUASTAT CSV:', filepath, '...')
     input_csv = pd.read_csv(filepath, index_col = False)
 
     # Remove unnecessary columns
@@ -25,7 +24,6 @@ def aquastat(filepath, output):
 
     # Only keep rows that have a country in the Country column
     input_csv = input_csv[input_csv['Country'].isin(countries)]
-    input_csv[['Country', 'Value']].to_csv('data/output.csv', index = False)
 
     # Split 'Variable_Name' column into individual attribute columns
     attributes = input_csv['Variable_Name'].unique()
@@ -43,16 +41,17 @@ def aquastat(filepath, output):
 
     # Export final CSV
     split_attr.to_csv(output, index = False)
-    print('CSV exported to', output)
+    print('CSV exported to:', output)
 
 def main():
     source = sys.argv[1]
-    filepath = sys.argv[2]
-    output = sys.argv[3]
+    filepath = 'data/raw/' + sys.argv[2] + '.csv'
+    output = 'data/clean/' + sys.argv[2] + '_clean.csv'
 
     if source == 'aquastat':
         aquastat(filepath, output)
     else:
         print('Uknown source!')
+
 if __name__ == "__main__":
     main()
