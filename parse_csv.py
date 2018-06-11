@@ -23,23 +23,34 @@ def aquastat(filepath, output):
     input_csv.rename(columns = {'Area':'Country', 'Area Id':'Area_Id', 'Variable Name':'Variable_Name'}, inplace = True)
 
     # Only keep rows that have a country in the Country column
-    input_csv = input_csv[input_csv['Country'].isin(countries)]
+    input_csv = input_csv[input_csv['Country'].isin(countries)].reset_index(drop = True)
+
+    # Shift dates by 2 years to standardize to years divisible by 5
+    for i in range(input_csv.shape[0]):
+        date = input_csv.at[i, 'Year']
+        mod = date%5
+        if mod != 0:
+            input_csv.at[i, 'Year'] = int(5 * round(float(date)/5))
 
     # Split 'Variable_Name' column into individual attribute columns
     attributes = input_csv['Variable_Name'].unique()
     split_attr = input_csv[input_csv['Variable_Name'] == attributes[0]][['Country', 'Year', 'Value']]
     split_attr.rename(columns = {'Value': attributes[0]}, inplace = True)
+    split_attr.reset_index(drop = True)
 
     # Combine variable columns into one table
     for v in range(len(attributes)-1):
         # Isolate one variable and its values
         temp = input_csv[input_csv['Variable_Name'] == attributes[v+1]][['Country', 'Year', 'Value']]
         temp.rename(columns = {'Value': attributes[v+1]}, inplace = True)
+        temp.reset_index(drop = True)
 
         # Join table with the final CSV
         split_attr = pd.merge(split_attr, temp,  how = 'outer', left_on = ['Country','Year'], right_on = ['Country','Year'])
+        split_attr.reset_index(drop = True)
 
     # Export final CSV
+    split_attr.reset_index(drop = True)
     split_attr.to_csv(output, index = False)
     print('CSV exported to:', output)
 
