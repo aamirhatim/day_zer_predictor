@@ -12,13 +12,6 @@ To help raise awareness to this situation, we used machine learning to develop a
 | 81 - 100      | High          |
 | >100          | Critical      |
 
-- 0 - 20 = None
-- 21 - 40 = Low
-- 41 - 60 = Medium
-- 61 - 80 = Alert
-- 81 - 100 = High
-- >100 = Critical
-
 Though we do not have enough data to go down to the city level, viewing things from a larger perspective can certainly provide insight into how a nation should work as a whole to prevent reaching a Day Zero situation.
 
 [Click here](Project_Explanation.pdf) to read a description of the project.
