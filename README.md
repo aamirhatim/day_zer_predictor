@@ -41,4 +41,23 @@ Much of this data (at the time of this project) is difficult to measure and reco
 ### Pre-Processing
 Data from our sources were presented in several different formats and contained extra information that was not useful for our application, so we developed data purification scripts to keep only what was necessary. [`parse_csv`](parse_csv.py) contains functions to parse raw CSV files from our sources into datasets that are compatible with our machine learning application. All the clean datasets were then merged into one master dataset using [`master_gen.py`](master_gen.py). This script also handles the best-fit model creation (described above) for each country's attribute, categorizing the output stress levels into 6 classes, and splits the whole dataset into testing and training subsets.  
 
-AQUASTAT presents nearly all of their values in 5 year increments, however the initial start time for one attribute might be different from another. This led to instances where half the attributes were present for one year and the remaining attributes were present for the year after. As a result, we had large gaps of information for every documented year. To fix this issue, we shifted the years of some attributes so that all attributes would follow the same 5 year time step for each country. For example, an attribute that has a year label of 1991 would be shifted to 1990. **This is under the assumption that values are relatively steady over the course of a couple years.**
+AQUASTAT presents nearly all of their values in 5 year increments, however the initial start time for one attribute might be different from another. This led to instances where half the attributes were present for one year and the remaining attributes were present for the year or two years after. As a result, we had large gaps of information for every documented year. To fix this issue, we shifted the years of some attributes so that all attributes would follow the same 5 year time step for each country. For example, an attribute that has a year label of 1991 would be shifted to 1990 unless a value was already present in the 1990 space. **This is under the assumption that values are relatively steady over the course of a couple years.**
+
+## Building the Model
+Using the randomly generated [training](data/master_train.csv) and [testing](data/master_test.csv) sets, we ran a series of tests to find the best algorithm that would classify the data. Given the type of inputs and outputs, we suspected using a decision tree would be effective in classifying the data. We also predicted that a multilayer perceptron may do well with our wide range of attributes because of its flexibility. The results of several machine algorithms are shown below.
+
+| Algorithm             | Accuracy  | Details                   |
+|-----------------------|-----------|---------------------------|
+| KStar                 | 92.21%    | Weka defaults             |
+| RandomForest          | 92.04%    | BreakTiesRandomly = True  |
+| RandomTree            | 90.80%    | BreakTiesRandomly = True  |
+| MultiClassClassifier  | 90.69%    | Weka defaults             |
+| J48                   | 88.88%    | Weka defaults             |
+| LogitBoost            | 88.37%    | Weka defaults             |
+| BayesNet              | 85.10%    | Weka defaults             |
+| NaiveBayes            | 79.74%    | Weka defaults             |
+| AdaBosstM1            | 79.40%    | Weka defaults             |
+| ZeroR                 | 79.40%    |                           |
+| MLP                   | 74.77%    | Weka defaults             |
+
+*NOTE: All models were generated using 10-Fold cross validation in Weka. The Details column provides information on what configuration gave the best results for the tested algorithm.*
