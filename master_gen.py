@@ -137,11 +137,9 @@ def fill_master():
 
 def categorize_target():
     master = pd.read_csv('data/master_filled.csv', index_col = False)
-    print(len(master.columns))
-    master.insert(len(master.columns), 'stress_level', 'none')
-    print(len(master.columns))
+    master.insert(len(master.columns), 'stress_level', 'none')          # Insert stress level column
 
-    for i in range(master.shape[0]):
+    for i in range(master.shape[0]):                                    # Determine category and add to stress level column
         stress = master.at[i,'stress']
         if stress <= 20.0:
             master.at[i,'stress_level'] = 'none'
@@ -156,9 +154,9 @@ def categorize_target():
         else:
             master.at[i,'stress_level'] = 'critical'
 
-    master.drop(['stress'], axis = 1, inplace = True)
+    master.drop(['stress'], axis = 1, inplace = True)                   # Delete numerical stress column
 
-    export(master, 'data/master_category.csv')
+    export(master, 'data/master_category.csv')                          # Export CSV
 
 def best_fit(x, y):
     # Compute means
