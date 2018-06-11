@@ -40,8 +40,8 @@ def create_master():
     attributes = []
     attributes.append(land_stats[['Country', 'Year', 'percent_cultivated']])
     attributes.append(precipitation[['Country', 'Year', 'annual_ppt_mm']])
-    attributes.append(desal[['Country', 'Year', 'desalinated']])
-    attributes.append(resources[['Country', 'Year', 'dependency', 'total_renewable_pc', 'seasonal_variability', 'agri_withdraw_percent', 'ind_withdraw_percent', 'muni_withdraw_percent', 'total_withdraw_pc']])
+    attributes.append(desal[['Country', 'Year', 'desalination']])
+    attributes.append(resources[['Country', 'Year', 'dependency', 'total_renewable_pc', 'agri_withdraw_percent', 'ind_withdraw_percent', 'muni_withdraw_percent', 'total_withdraw_pc']])
     attributes.append(stress[['Country', 'Year', 'stress']])
 
     # Create master table with first attribute
@@ -56,21 +56,50 @@ def create_master():
     ##########################################
     harvesting = pd.DataFrame(columns = ['Country', 'Year', 'rwh_awareness'])
     for i in range(master.shape[0]):
-        country = master.at[i, 'Country']
-        yr = master.at[i, 'Year']
-        rwh_ind = rwh.index[rwh['Country']==country].tolist()[0]
-        awareness = rwh.at[rwh_ind, 'RWH_awareness']
+        country = master.at[i, 'Country']                           # Get country name in master row
+        yr = master.at[i, 'Year']                                   # Get year in master row
+        rwh_ind = rwh.index[rwh['Country']==country].tolist()       # Get index of country in rwh
+        if len(rwh_ind) == 0:
+            awareness = 0
+        else:
+            rwh_ind = rwh_ind[0]
+            awareness = rwh.at[rwh_ind, 'RWH_awareness']
         harvesting.loc[i] = [country, yr, awareness]
 
     # Export RWH data to clean CSV
-    export(harvesting, 'data/clean/rwh_awareness_multiple_sources.csv')
+    export(harvesting, 'data/clean/rwh_awareness_multiple_sources_clean.csv')
+    ##########################################
+    ##########################################
+
+
+    ##########################################
+    ## Clean up Seasonal Variability Data   ##
+    ## then add to master                   ##
+    ##########################################
+    seasonal_var = resources[(resources.seasonal_variability > 0)][['Country', 'Year', 'seasonal_variability']].reset_index(drop=True)
+    seasonal = pd.DataFrame(columns = ['Country', 'Year', 'seasonal_variability'])
+    for i in range(master.shape[0]):
+        country = master.at[i, 'Country']                                               # Get country name in master row
+        yr = master.at[i, 'Year']                                                       # Get year in master row
+        seasonal_ind = seasonal_var.index[seasonal_var['Country']==country].tolist()    # Get index of country in seasonal
+        if len(seasonal_ind) == 0:
+            variability = 0
+        else:
+            seasonal_ind = seasonal_ind[0]
+            variability = seasonal_var.at[seasonal_ind, 'seasonal_variability']
+        seasonal.loc[i] = [country, yr, variability]
+
+    # Export seasonal variability data to clean CSV
+    export(seasonal, 'data/clean/seasonal_variability_AQUASTAT_clean.csv')
+    ##########################################
     ##########################################
 
     # Add to master
     master = pd.merge(master, harvesting, how = 'outer', left_on = ['Country','Year'], right_on = ['Country','Year'])
+    master = pd.merge(master, seasonal, how = 'outer', left_on = ['Country','Year'], right_on = ['Country','Year'])
 
     # Export master to CSV
-    export(master, 'data/clean/master.csv')
+    export(master, 'data/master.csv')
 
 def main():
     create_master()
