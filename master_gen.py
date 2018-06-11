@@ -175,8 +175,27 @@ def best_fit(x, y):
 
 def build_test_training_sets():
     master = pd.read_csv('data/master_category.csv', index_col = False)
-    total_samples = master.shape[0]
-    print(int(total_samples/10))
+    total_samples = master.shape[0]                             # Get total number of samples
+    num_test = int(total_samples/10)                            # Calculate percentage of test samples
+
+    master_test = pd.DataFrame()                                # Generate test and train dataframes
+    master_train = pd.DataFrame()
+
+    i = 0
+    visited = [0 for x in range(total_samples)]                 # Build array to keep track of visited rows
+    while i < num_test:                                         # Randomly add rows to test set
+        ind = np.random.randint(0,total_samples)
+        if visited[ind] == 0:
+            master_test = master_test.append(master.loc[ind])
+            visited[ind] = 1
+            i += 1
+
+    for j in range(total_samples):                              # Add remaining rows to training set
+        if visited[j] == 0:
+            master_train = master_train.append(master.loc[j])
+
+    export(master_test, 'data/master_test.csv')                 # Export CSV files
+    export(master_train, 'data/master_train.csv')
 
 def main():
     # create_master()
