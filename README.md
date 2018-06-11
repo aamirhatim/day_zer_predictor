@@ -10,12 +10,12 @@ Most of our data was gathered from the extensive [AQUASTAT](http://www.fao.org/n
 
 ### Attributes
 #### Geography
-- % total country cultivated [AQUASTAT]
-  - This is a percentage of the total land area of the country that has been cultivated.
-- annual precipitation (mm/yr) [AQUASTAT]
-- annual precipitation (10^9 m^3/yr) [AQUASTAT]
+- **% total country cultivated [AQUASTAT]**: Percentage of the total land area of the country that has been cultivated
+- **annual precipitation (mm/yr) [AQUASTAT]**: Total depth of precipitation per year
 
 #### Water Resources
+- **rainwater harvesting awareness [multiple sources]**: True/False value determined by whether or not rainwater harvesting is widely practiced
+- **water consumption per capita (m<sup>3</sup>/year/inhabitant) [AQUASTAT]**: 
 - total renewable water resources (10^9 m^3/yr) [AQUASTAT]
 - water dependency ratio (%) [AQUASTAT]
 - total renewable water resources per capita (m^3/inhab/yr) [AQUASTAT]
