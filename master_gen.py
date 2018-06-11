@@ -102,6 +102,7 @@ def create_master():
 def fill_master():
     master = pd.read_csv('data/master.csv', index_col = False)
     test = master[master['Country']=='Cyprus']
+    print(test)
 
     years = np.array(test.Year.tolist())            # Get years
     vals = np.array(test.desalination.tolist())     # Get values
