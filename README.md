@@ -1,5 +1,5 @@
 # Day Zero Predictor
-[Click here](Project Explanation.pdf) to read a description of the project.
+[Click here](Project_Explanation.pdf) to read a description of the project.
 
 ### Attributes Considered
 #### Geography
