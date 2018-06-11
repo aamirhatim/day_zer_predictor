@@ -173,10 +173,16 @@ def best_fit(x, y):
     model = lambda x: m*x + b
     return model
 
+def build_test_training_sets():
+    master = pd.read_csv('data/master_category.csv', index_col = False)
+    total_samples = master.shape[0]
+    print(int(total_samples/10))
+
 def main():
     # create_master()
     # fill_master()
-    categorize_target()
+    # categorize_target()
+    build_test_training_sets()
 
 if __name__ == "__main__":
     main()
