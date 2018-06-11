@@ -135,6 +135,31 @@ def fill_master():
 
     export(master, 'data/master_filled.csv')
 
+def categorize_target():
+    master = pd.read_csv('data/master_filled.csv', index_col = False)
+    print(len(master.columns))
+    master.insert(len(master.columns), 'stress_level', 'none')
+    print(len(master.columns))
+
+    for i in range(master.shape[0]):
+        stress = master.at[i,'stress']
+        if stress <= 20.0:
+            master.at[i,'stress_level'] = 'none'
+        elif stress <= 40.0:
+            master.at[i,'stress_level'] = 'low'
+        elif stress <= 60.0:
+            master.at[i,'stress_level'] = 'medium'
+        elif stress <= 80.0:
+            master.at[i,'stress_level'] = 'alert'
+        elif stress <= 100.0:
+            master.at[i,'stress_level'] = 'high'
+        else:
+            master.at[i,'stress_level'] = 'critical'
+
+    master.drop(['stress'], axis = 1, inplace = True)
+
+    export(master, 'data/master_category.csv')
+
 def best_fit(x, y):
     # Compute means
     x_mean = np.mean(x)
@@ -152,7 +177,8 @@ def best_fit(x, y):
 
 def main():
     # create_master()
-    fill_master()
+    # fill_master()
+    categorize_target()
 
 if __name__ == "__main__":
     main()
