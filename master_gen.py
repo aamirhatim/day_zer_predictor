@@ -101,23 +101,39 @@ def create_master():
 
 def fill_master():
     master = pd.read_csv('data/master.csv', index_col = False)
-    test = master[master['Country']=='Cyprus']
-    print(test)
+    countries = master.Country.unique().tolist()            # Get list of countries
 
-    years = np.array(test.Year.tolist())            # Get years
-    vals = np.array(test.desalination.tolist())     # Get values
-    for i in range(len(vals)):                      # Convert NaNs to 0
-        if np.isnan(vals[i]):
-            vals[i] = 0
+    for c in countries:
+        data = master[master['Country']==c]
+        print('Filling data for', c)
 
-    model = best_fit(years, vals)                   # Create best fit line model
-    for i in range(len(vals)):
-        if vals[i] == 0:
-            new_val = max(model(years[i]), 0)
-            print(new_val)
+        attributes = data.columns.tolist()                  # Get list of attributes
+        ind = np.array(data.index.values.tolist())          # Get index values for each row
+        years = np.array(data.Year.tolist())                # Get years
 
-    # export(test, 'test.csv')
-    # print(master[master['Country']=='Afghanistan'])
+        a = 2
+        while a < len(attributes):
+            vals = data[[attributes[a]]]                    # Get values
+            vals = vals.as_matrix(vals.columns[:1]).T[0]    # Convert to array
+            fitting_vals = vals                             # Duplicate for fitting
+            vals = np.array(vals)                           # Convert to numpy array
+
+            missing_val = 0                                 # Flag for array with missing values
+            for i in range(len(vals)):                      # Convert NaNs to 0
+                if pd.isnull(vals[i]):
+                    vals[i] = 0
+                    missing_val = 1
+
+            if missing_val == 1:
+                model = best_fit(years, vals)               # Create best fit line model if missing values present
+                for i in range(len(fitting_vals)):
+                    if pd.isnull(fitting_vals[i]):
+                        new_val = max(model(years[i]), 0)
+                        master.at[ind[i], attributes[a]] = new_val
+
+            a += 1
+
+    export(master, 'data/master_filled.csv')
 
 def best_fit(x, y):
     # Compute means
