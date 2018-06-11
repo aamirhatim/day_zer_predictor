@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 '''
-ATTRIBUTES EXTRACTED:
+ATTRIBUTES:
 - percent area cultivated
 - annual precipitation
 - Rainwater Harvesting awareness
 - desalination water produced
 - seasonal variability
-- water stress level**
+- water stress level (CLASS)
 - total renewable resources per capita
 - total water withdrawal per capita
 - dependency ratio
@@ -25,8 +25,6 @@ def export(table, out_path):
     print('CSV exported to:', out_path)
 
 def create_master():
-    years = [1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007, 2012, 2013, 2014]
-
     # Import CSVs
     land_stats = pd.read_csv('data/clean/land_stats_AQUASTAT_clean.csv', index_col = False)
     precipitation = pd.read_csv('data/clean/precipitation_AQUASTAT_clean.csv', index_col = False)
@@ -101,8 +99,43 @@ def create_master():
     # Export master to CSV
     export(master, 'data/master.csv')
 
+def fill_master():
+    master = pd.read_csv('data/master.csv', index_col = False)
+    test = master[master['Country']=='Cyprus']
+
+    years = np.array(test.Year.tolist())            # Get years
+    vals = np.array(test.desalination.tolist())     # Get values
+    for i in range(len(vals)):                      # Convert NaNs to 0
+        if np.isnan(vals[i]):
+            vals[i] = 0
+
+    model = best_fit(years, vals)                   # Create best fit line model
+    for i in range(len(vals)):
+        if vals[i] == 0:
+            new_val = max(model(years[i]), 0)
+            print(new_val)
+
+    # export(test, 'test.csv')
+    # print(master[master['Country']=='Afghanistan'])
+
+def best_fit(x, y):
+    # Compute means
+    x_mean = np.mean(x)
+    y_mean = np.mean(y)
+    xy_mean = np.mean(x*y)
+    xx_mean = np.mean(x*x)
+
+    # Calculate slope and intercept
+    m = (((x_mean*y_mean) - xy_mean) / ((x_mean*x_mean) - xx_mean))
+    b = y_mean - m*x_mean
+
+    # Build model
+    model = lambda x: m*x + b
+    return model
+
 def main():
-    create_master()
+    # create_master()
+    fill_master()
 
 if __name__ == "__main__":
     main()
