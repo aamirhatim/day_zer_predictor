@@ -24,7 +24,7 @@ for i in country_list:
     data = country_stress[country_stress['Country']==i]
     #print(data)
     final_data = data.ix[:, ['Year', 'stress']]
-    final_data.loc[-1] = [1860,0]
+    final_data.loc[-1] = [1850,0]
     final_data.index = final_data.index+1
     final_data = final_data.sort_index()
     #print(final_data)
