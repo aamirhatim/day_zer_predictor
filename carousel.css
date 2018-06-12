@@ -27,6 +27,8 @@ body {
   top:7.5rem;
   bottom: 3rem;
   z-index: 10;
+  color: #F2E5FD;
+  text-shadow: 0 3px 2px rgba(0,0,0,.6);
 }
 
 /* Declare heights because of positioning of img element */
