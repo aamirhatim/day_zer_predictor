@@ -19,6 +19,11 @@ ATTRIBUTES:
 import pandas as pd
 import numpy as np
 import sys
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import Ridge
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import Pipeline
 
 def export(table, out_path):
     table.to_csv(out_path, index = False)
@@ -107,31 +112,24 @@ def fill_master():
         data = master[master['Country']==c]
         print('Filling data for', c)
 
-        attributes = data.columns.tolist()                  # Get list of attributes
         ind = np.array(data.index.values.tolist())          # Get index values for each row
-        years = np.array(data.Year.tolist())                # Get years
+        years = np.array([data.Year.tolist()])              # Get years
 
-        a = 2
-        while a < len(attributes):
-            vals = data[[attributes[a]]]                    # Get values
-            vals = vals.as_matrix(vals.columns[:1]).T[0]    # Convert to array
-            fitting_vals = vals                             # Duplicate for fitting
-            vals = np.array(vals)                           # Convert to numpy array
+        vals = np.array(data['stress'].tolist())            # Get stress values
+        fitting_vals = np.array(data['stress'].tolist())    # Duplicate for fitting
 
-            missing_val = 0                                 # Flag for array with missing values
-            for i in range(len(vals)):                      # Convert NaNs to 0
-                if pd.isnull(vals[i]):
-                    vals[i] = 0
-                    missing_val = 1
+        missing_val = 0                                     # Flag for array with missing values
+        for i in range(len(vals)):                          # Convert NaNs to 0
+            if np.isnan(vals[i]):
+                vals[i] = 0
+                missing_val = 1
 
-            if missing_val == 1:
-                model = best_fit(years, vals)               # Create best fit line model if missing values present
-                for i in range(len(fitting_vals)):
-                    if pd.isnull(fitting_vals[i]):
-                        new_val = max(model(years[i]), 0)
-                        master.at[ind[i], attributes[a]] = new_val
-
-            a += 1
+        if missing_val == 1:
+            model = best_fit(years.T, vals)                 # Create best fit line model if missing values present
+            for i in range(len(vals)):
+                if np.isnan(fitting_vals[i]):
+                    new_val = max(model.predict(years[0][i]), 0)
+                    master.at[ind[i], 'stress'] = new_val
 
     export(master, 'data/master_filled.csv')
 
@@ -155,22 +153,11 @@ def categorize_target():
             master.at[i,'stress_level'] = 'critical'
 
     master.drop(['stress'], axis = 1, inplace = True)                   # Delete numerical stress column
-
     export(master, 'data/master_category.csv')                          # Export CSV
 
 def best_fit(x, y):
-    # Compute means
-    x_mean = np.mean(x)
-    y_mean = np.mean(y)
-    xy_mean = np.mean(x*y)
-    xx_mean = np.mean(x*x)
-
-    # Calculate slope and intercept
-    m = (((x_mean*y_mean) - xy_mean) / ((x_mean*x_mean) - xx_mean))
-    b = y_mean - m*x_mean
-
-    # Build model
-    model = lambda x: m*x + b
+    model = Ridge(alpha=0.5)
+    model.fit(x,y)
     return model
 
 def build_test_training_sets():
@@ -199,8 +186,8 @@ def build_test_training_sets():
 
 def main():
     # create_master()
-    # fill_master()
-    # categorize_target()
+    fill_master()
+    categorize_target()
     build_test_training_sets()
 
 if __name__ == "__main__":
