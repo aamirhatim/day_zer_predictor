@@ -27,7 +27,7 @@
         
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">About<span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
             </li>
 
            
@@ -47,7 +47,9 @@
           <div class="carousel-item active">
           
           <div class = "carousel-caption">
-          <h1>Day Zero Predictor</h1>
+          <h3>Day Zero Predictor</h3>
+          <h6>Aamir Husain & Ahalya Mandana</h6>
+          <h6>Final Project for EECS 349: Machine Learning</h6>
           </div>
           
             <img class="first-slide" src="images/img.png" alt="First slide">
@@ -73,20 +75,152 @@
 
         <!-- START THE FEATURETTES -->
     <div class="row featurette">
-   
-        
-"Day Zero" is a term that is used to refer to a situation of extreme water shortage - a situation that Cape Town came very close to facing last year. They have managed to avoid complete water shortage as of now, but it is a huge warning for the rest of the world. Many cities all around the world experience water shortages throughout the year, causing massive disruptions in day-to-day life of locals, businesses, and the economy. The ability to keep an eye on cities coming close to a ‘Day Zero’ event could be incredibly useful in not only effectively deploying aid, but also to take preventative actions early on so that local authorities are not forced to impose extreme water usage laws on short notice.<br>
+   <div class="col-md-7">
+            <h6 class="featurette-heading">Introduction</h6>
+          </div><br>
+ <div class="col-md-11">     
+ <br>  
+"Day Zero" is a term that is used to refer to a situation of extreme water shortage - a situation that Cape Town came very close to facing last year. They have managed to avoid complete water shortage as of now, but it is a huge warning for the rest of the world. Many cities all around the world experience water shortages throughout the year, causing massive disruptions in day-to-day life of locals, businesses, and the economy. The ability to keep an eye on cities coming close to a ‘Day Zero’ event could be incredibly useful in not only effectively deploying aid, but also to take preventative actions early on so that local authorities are not forced to impose extreme water usage laws on short notice.<br><br>
+To help raise awareness to this situation, we used machine learning to develop a model to predict the water stress level of a country given a particular set of attributes. We divided the raw stress values (a scale from 0-100) into 6 categories: 
+<br><br>
+<ul>
+	<li> Stress Value of 0-20: None
+		<li> Stress Value of 21-40: Low
+			<li> Stress Value of 41-60: Medium
+				<li> Stress Value of 61-80: Alert
+					<li> Stress Value of 81-100: High
+						<li> Stress Value of >100: Critical
+</ul>
 
-          <div class="col-md-7">
+</div>
+<div class="col-md-7">
+            <h6 class="featurette-heading">Initial Approach and Results</h6>
+          </div><br>
+ <div class="col-md-11">     
+ <br>  
+We started off the project by selecting the a set of relevant attributes to build up a large dataset. Our dataset consisted of 11 attributes, such as annual precipitation, total renewable water resources per capita, desalination capacity, etc. The dataset consisted of 1968 examples. These examples included data for 180 countries, for different years ranging from 1960 to 2014.  Our next step was to train a machine learning model on this dataset, to be able to predict stress levels of a country, given all other attributes (i.e. the target attribute was stress level). We ran a series of tests in Weka to find the best algorithm to build a model based on our data. Since there were a fair number of missing attributes, we predicted that decision tree or some other instance based learner would perform well on the data. It turned out that nearest neighbour (IBk) produced the best results (88.26% classification accuracy) when we generated a Weka model with 10 fold cross-validation. KStar was second (89.28%) and RandomForest was third (88.26%). <br><br>After generating these models, converted our entire dataset into a test set, and we used the models to generate a whole new set of stress values. 
+
+<br><br>
+
+</div>
+
+<div class="col-md-7">
+            <h6 class="featurette-heading">Predictions</h6>
+          </div><br>
+ <div class="col-md-11">     
+ <br>  
+Once the new set of stress values were generated, we collected this data and used scikit-learn to perform linear regression on each country's stress data over the time period of 1960 to 2014. Using this model, we plotted a graph of the water stress vs. year for each country and used that to find predict the year when stress crossed a critical levels. The results of our project can be seen below. Select a country from the drop down list to find out when the country could face 'Day Zero'. The world map below shows the set of countries that are predicted to run out of water completely by 2200.   
+
+<br><br>
+
+</div>
+
+
+
+          <div class="col-md-6">
             <h6 class="featurette-heading">Select a country.</h6>
           </div>
           <div class="col-md-5">
-            <select class="custom-select d-block w-100" id="country" required>
+            <select class="custom-select d-block w-100" id="country" required name="countries">
               <option value="">Choose one from this list.</option>
-              <option>Afghanistan</option>
-              <option>Antigua</option>
-              <option>Bahrain</option>
-              <option></option>
+              <option value="Sep 18th, 2371">Afghanistan</option>
+              <option value="Sep 01st, 2983">Albania</option>
+              <option value="May 18th, 2109">Algeria</option>
+              <option value ="Sep 1st, 2983">Angola</option>
+              <option value ="Sep 1st, 2983">Antigua and Barbuda</option>
+              <option value="Sep 1st, 2983">Argentina</option>
+              <option value="Dec 8th, 2099">Armenia</option>
+              <option value = "Sep 1st, 2983">Australia</option>
+              <option value="Sep 1st, 2983">Austria</option>
+              <option value="Apr 26th, 2065">Azerbaijan</option>
+              <option value="Oct 2nd, 2084">Bahrain</option>
+              <option value ="Sep 1st, 2983">Bangladesh</option>
+              <option value ="Oct 30th, 2179">Barbados</option>
+              <option value="Jan 22nd, 2938">Belarus</option>
+              <option value="Nov 5th, 2106">Belgium</option>
+               <option value="Sep 1st, 2983">Belize</option>
+                <option value="Sep 1st, 2983">Benin</option>
+                 <option value="Sep 1st, 2983">Bhutan</option>
+                  <option value="Sep 1st, 2983">Bolivia</option>
+                   <option value="Sep 1st, 2983">Botswana</option>
+                    <option value="Sep 1st, 2983">Brazil</option>
+                     <option value="Sep 1st, 2983">Brunei Darussalam</option>
+                      <option value="Jun 15th, 2044">Bulgaria</option>
+                       <option value="Sep 1st, 2983">Burkina Faso</option>
+                        <option value="Sep 1st, 2983">Burundi</option>
+                         <option value="Sep 1st, 2983">Cabo Verde</option>
+                          <option value="Sep 1st, 2983">Cambodia</option>
+                           <option value="Sep 1st, 2983">Cameroon</option>
+                            <option value="Sep 1st, 2983">Canada</option>
+                             <option value="Sep 1st, 2983">Central African Republic</option>
+                              <option value="Sep 1st, 2983">Chad</option>
+                               <option value="Sep 1st, 2983">Chile</option>
+                                <option value="Jan 22nd, 2195">China</option>
+                                 <option value="Sep 1st, 2983">Colombia</option>
+                                  <option value="Sep 1st, 2983">Comoros</option>
+                                   <option value="Sep 1st, 2983">Congo</option>
+                                    <option value="Sep 1st, 2983">Costa Rica</option>
+                                     <option value="Sep 1st, 2983">Cote D'Ivoire</option>
+                                      <option value="Jan 22nd, 2938">Croatia</option>
+                                       <option value="Mar 18th, 2590">Cuba</option>
+                                        <option value="Jan 22nd, 2195">Cyprus</option>
+                                         <option value="Jul 28th, 2214">Czechia</option>
+                                          <option value="Sep 1st, 2983">Democratic People's Republic of Korea</option>
+                                           <option value="Sep 1st, 2983">Democratic Republic of the Congo</option>
+                                            <option value="Jun 14th, 2152">Denmark</option>
+                                             <option value="Sep 1st, 2983">Djibouti</option>
+                                              <option value="Sep 1st, 2983">Dominica</option>
+                                               <option value="Aug 21st, 2156">Dominican Republic</option>
+                                                <option value="Sep 1st, 2983">Ecuador</option>
+                                                 <option value="Dec 2nd, 2158">Egypt</option>
+                                                  <option value="Sep 1st, 2983">El Salvador</option>
+                                                   <option value="Sep 1st, 2983">Equatorial Guinea</option>
+                                                    <option value="Nov 05th, 2106">Eritrea</option>
+                                                     <option value="Nov 05th, 2106">Estonia</option>
+                                                      <option value="Nov 05th, 2106">Ethiopia</option>
+                                                       <option value="Nov 05th, 2106">Fiji</option>
+                                                        <option value="Nov 05th, 2106">Finland</option>
+                                                         <option value="Nov 05th, 2106">France</option>
+                                                          <option value="Nov 05th, 2106">Gabon</option>
+                                                           <option value="Nov 05th, 2106">Gambia</option>
+                                                            <option value="Nov 05th, 2106">Georgia</option>
+                                                             <option value="Nov 05th, 2106">Germany</option>
+                                                              <option value="Nov 05th, 2106">Ghana</option>
+                                                               <option value="Nov 05th, 2106">Greece</option>
+                                                               <option value="Nov 05th, 2106">Grenada</option>
+                                                               <option value="Nov 05th, 2106">Guatemala</option>
+                                                               <option value="Nov 05th, 2106">Guinea</option>
+                                                               <option value="Nov 05th, 2106">Guinea-Bissau</option>
+                                                               <option value="Nov 05th, 2106">Guyana</option>
+                                                               <option value="Nov 05th, 2106">Haiti</option>
+                                                               <option value="Nov 05th, 2106">Honduras</option>
+                                                               <option value="Nov 05th, 2106">Hungary</option>
+                                                               <option value="Nov 05th, 2106">Iceland</option>
+                                                               <option value="Nov 05th, 2106">India</option>
+                                                               <option value="Nov 05th, 2106">Indonesia</option>
+                                                               <option value="Nov 05th, 2106">Iran</option>
+                                                               <option value="Nov 05th, 2106">Iraq</option>
+                                                               <option value="Nov 05th, 2106">Ireland</option>
+                                                               <option value="Nov 05th, 2106">Israel</option>
+                                                               <option value="Nov 05th, 2106">Italy</option>
+                                                               <option value="Nov 05th, 2106">Jamaica</option>
+                                                               <option value="Nov 05th, 2106">Japan</option>
+                                                               <option value="Nov 05th, 2106">Jordan</option>
+                                                               <option value="Nov 05th, 2106">Kazakhstan</option>
+                                                               <option value="Nov 05th, 2106">Kenya</option>
+                                                               <option value="Nov 05th, 2106">Kuwait</option>
+                                                               <option value="Nov 05th, 2106">Kyrgyztan</option>
+                                                               <option value="Nov 05th, 2106">Laos</option>
+                                                               <option value="Nov 05th, 2106">Latvia</option>
+                                                               <option value="Nov 05th, 2106">Lebanon</option>
+                                                               <option value="Nov 05th, 2106">Lesotho</option>
+                                                               <option value="Nov 05th, 2106">Liberia</option>
+                                                               <option value="Nov 05th, 2106">Libya</option>
+                                                               <option value="Nov 05th, 2106">Lithuania</option>
+                                                               <option value="Nov 05th, 2106">Luxembourg</option>
+                                                               <option value="Nov 05th, 2106">Madagascar</option>
+
+
             </select>
           </div>
         </div>
@@ -95,10 +229,33 @@
 
         <div class="row featurette">
          <div class="col-md-7">
-            <h6 class="featurette-heading">Stress Level:</h6>
-            <h6 class="featurette-heading">Year Zero:</h6> 
+           
+            <h6 class="featurette-heading">Day Zero:</h6> <p id="dayz"></p>
+         
+          <script type="text/javascript">
+                      document.addEventListener('DOMContentLoaded',function() {
+    					document.querySelector('select[name="countries"]').onchange=changeEventHandler;
+						},false);
+
+						function changeEventHandler(event) {
+    // You can use “this” to refer to the selected element.
+    					document.getElementById('dayz').innerHTML = event.target.value; 
+						}
+
+
+                  </script>
+
+
+
+
+
+
           </div>
           
+
+
+
+
         
           <div class="col-md-7">
             <h3 class="featurette-heading"></h3>
