@@ -24,17 +24,17 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-        
+
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
               <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
             </li>
 
-           
-            
-            
+
+
+
           </ul>
-          
+
         </div>
       </nav>
     </header>
@@ -42,25 +42,25 @@
     <main role="main">
 
       <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        
+
         <div class="carousel-inner">
           <div class="carousel-item active">
-          
+
           <div class = "carousel-caption">
           <h3>Day Zero Predictor</h3>
           <h6>Aamir Husain & Ahalya Mandana</h6>
           <h6>Final Project for EECS 349: Machine Learning</h6>
           </div>
-          
+
             <img class="first-slide" src="images/img.png" alt="First slide">
             <div class="container">
-              
+
             </div>
           </div>
-          
-          
+
+
         </div>
-        
+
       </div>
 
 
@@ -71,17 +71,17 @@
       <div class="container marketing">
 
         <!-- Three columns of text below the carousel -->
-        
+
 
         <!-- START THE FEATURETTES -->
     <div class="row featurette">
    <div class="col-md-7">
             <h6 class="featurette-heading">Introduction</h6>
           </div><br>
- <div class="col-md-11">     
- <br>  
+ <div class="col-md-11">
+ <br>
 "Day Zero" is a term that is used to refer to a situation of extreme water shortage - a situation that Cape Town came very close to facing last year. They have managed to avoid complete water shortage as of now, but it is a huge warning for the rest of the world. Many cities all around the world experience water shortages throughout the year, causing massive disruptions in day-to-day life of locals, businesses, and the economy. The ability to keep an eye on cities coming close to a ‘Day Zero’ event could be incredibly useful in not only effectively deploying aid, but also to take preventative actions early on so that local authorities are not forced to impose extreme water usage laws on short notice.<br><br>
-To help raise awareness to this situation, we used machine learning to develop a model to predict the water stress level of a country given a particular set of attributes. We divided the raw stress values (a scale from 0-100) into 6 categories: 
+To help raise awareness to this situation, we used machine learning to develop a model to predict the water stress level of a country given a particular set of attributes. We divided the raw stress values (a scale from 0-100) into 6 categories:
 <br><br>
 <ul>
 	<li> Stress Value of 0-20: None
@@ -96,9 +96,9 @@ To help raise awareness to this situation, we used machine learning to develop a
 <div class="col-md-7">
             <h6 class="featurette-heading">Initial Approach and Results</h6>
           </div><br>
- <div class="col-md-11">     
- <br>  
-We started off the project by selecting the a set of relevant attributes to build up a large dataset. Our dataset consisted of 11 attributes, such as annual precipitation, total renewable water resources per capita, desalination capacity, etc. The dataset consisted of 1968 examples. These examples included data for 180 countries, for different years ranging from 1960 to 2014.  Our next step was to train a machine learning model on this dataset, to be able to predict stress levels of a country, given all other attributes (i.e. the target attribute was stress level). We ran a series of tests in Weka to find the best algorithm to build a model based on our data. Since there were a fair number of missing attributes, we predicted that decision tree or some other instance based learner would perform well on the data. It turned out that nearest neighbour (IBk) produced the best results (88.26% classification accuracy) when we generated a Weka model with 10 fold cross-validation. KStar was second (89.28%) and RandomForest was third (88.26%). <br><br>After generating these models, converted our entire dataset into a test set, and we used the models to generate a whole new set of stress values. 
+ <div class="col-md-11">
+ <br>
+We started off the project by selecting the a set of relevant attributes to build up a large dataset. Our dataset consisted of 11 attributes, such as annual precipitation, total renewable water resources per capita, desalination capacity, etc. The dataset consisted of 1968 examples. These examples included data for 180 countries, for different years ranging from 1960 to 2014.  Our next step was to train a machine learning model on this dataset, to be able to predict stress levels of a country, given all other attributes (i.e. the target attribute was stress level). We ran a series of tests in Weka to find the best algorithm to build a model based on our data. Since there were a fair number of missing attributes, we predicted that decision tree or some other instance based learner would perform well on the data. It turned out that nearest neighbour (IBk) produced the best results (88.26% classification accuracy) when we generated a Weka model with 10 fold cross-validation. KStar was second (89.28%) and RandomForest was third (88.26%). <br><br>After generating these models, converted our entire dataset into a test set, and we used the models to generate a whole new set of stress values.
 
 <br><br>
 
@@ -107,9 +107,9 @@ We started off the project by selecting the a set of relevant attributes to buil
 <div class="col-md-7">
             <h6 class="featurette-heading">Predictions</h6>
           </div><br>
- <div class="col-md-11">     
- <br>  
-Once the new set of stress values were generated, we collected this data and used scikit-learn to perform linear regression on each country's stress data over the time period of 1960 to 2014. Using this model, we plotted a graph of the water stress vs. year for each country and used that to find predict the year when stress crossed a critical level. The results of our project can be seen below. Select a country from the drop down list to find out when the country could face 'Day Zero'. The world map below shows the set of countries that are predicted to run out of water completely by 2100.   
+ <div class="col-md-11">
+ <br>
+Once the new set of stress values were generated, we collected this data and used scikit-learn to perform linear regression on each country's stress data over the time period of 1960 to 2014. Using this model, we plotted a graph of the water stress vs. year for each country and used that to find predict the year when stress crossed a critical level. The results of our project can be seen below. Select a country from the drop down list to find out when the country could face 'Day Zero'. The world map below shows the set of countries that are predicted to run out of water completely by 2100.
 
 <br><br>
 
@@ -229,9 +229,9 @@ Once the new set of stress values were generated, we collected this data and use
 
         <div class="row featurette">
          <div class="col-md-7">
-           
+
             <h6 class="featurette-heading">Day Zero:</h6> <p id="dayz"></p>
-         
+
           <script type="text/javascript">
                       document.addEventListener('DOMContentLoaded',function() {
     					document.querySelector('select[name="countries"]').onchange=changeEventHandler;
@@ -239,7 +239,7 @@ Once the new set of stress values were generated, we collected this data and use
 
 						function changeEventHandler(event) {
     // You can use “this” to refer to the selected element.
-    					document.getElementById('dayz').innerHTML = event.target.value; 
+    					document.getElementById('dayz').innerHTML = event.target.value;
 						}
 
 
@@ -251,24 +251,24 @@ Once the new set of stress values were generated, we collected this data and use
 
 
           </div>
-          
 
 
 
 
-        
+
+
           <div class="col-md-7">
             <h3 class="featurette-heading"></h3>
-            
-            
+
+
           </div>
           <div class="col-md-5 order-md-1">
-           
-           
+
+
           </div>
         </div>
 
-        
+
         <script src="https://www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script>
         <script src="https://www.amcharts.com/lib/3/maps/js/worldHigh.js" type="text/javascript"></script>
         <script src="https://www.amcharts.com/lib/3/themes/dark.js" type="text/javascript"></script>
@@ -344,11 +344,11 @@ Once the new set of stress values were generated, we collected this data and use
         });
         </script>
 
-        
 
- <div class="col-md-11">     
- <br>  
-Countries that could possibly run out of water completely by 2100. These predictions could encourage citizens to take immediate steps to conserve water. 
+
+ <div class="col-md-11">
+ <br>
+Countries that could possibly run out of water completely by 2100. These predictions could encourage citizens to take immediate steps to conserve water.
 <br><br>
 
 </div>
@@ -356,9 +356,9 @@ Countries that could possibly run out of water completely by 2100. These predict
 <div class="col-md-7">
             <h6 class="featurette-heading">Final Report</h6>
           </div><br>
- <div class="col-md-11">     
- <br>  
-The report for this project with more detailed results and a thorough analysis of the results can be found here.    
+ <div class="col-md-11">
+ <br>
+The report for this project with more detailed results and a thorough analysis of the results can be found <a href = 'project_data/Final_Report.pdf'>here</a>.    
 
 <br><br>
 
