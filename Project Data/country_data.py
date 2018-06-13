@@ -6,6 +6,17 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import Pipeline
+from datetime import timedelta, datetime
+
+
+def convert_partial_year(number):
+
+    year = int(number)
+    d = timedelta(days=(number - year)*365)
+    day_one = datetime(year,1,1)
+    date = d + day_one
+    return date
+
 
 
 def export(table, out_path):
@@ -17,7 +28,7 @@ def export(table, out_path):
 #     # Import CSVs
 country_stress = pd.read_csv('data/lookup_table.csv', index_col = False)
 country_list = (country_stress.Country.unique())
-critical_yearlist = []
+dayzerolist = []
 critical_year = 0
 for i in country_list:
     #print(i)
@@ -46,8 +57,26 @@ for i in country_list:
     #print(model.coef_)
 
     critical_year = (7-x_intercept)/slope
-    print(critical_year)
-    critical_yearlist.append(critical_year[0])
+    #print(critical_year)
+    #critical_yearlist.append(critical_year[0])
 
-clean_stress = pd.DataFrame({'Country':country_list,'YearZero':critical_yearlist})
+    ddmmyy = convert_partial_year(critical_year[0])
+    #print(ddmmyy)
+
+    format = "%a %b %d %Y"
+
+    today = datetime.today()
+    #print('ISO     :', today)
+
+    s = today.strftime(format)
+    #print('strftime:', s)
+
+    d = datetime.strptime(s, format)
+    day_zero = ddmmyy.strftime(format)
+    dayzerolist.append(day_zero)
+
+
+
+
+clean_stress = pd.DataFrame({'Country':country_list,'YearZero':dayzerolist})
 export(clean_stress,'data/final_stress.csv')

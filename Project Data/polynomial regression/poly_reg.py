@@ -5,6 +5,17 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import Pipeline
 
+from datetime import timedelta, datetime
+
+
+def convert_partial_year(number):
+
+    year = int(number)
+    d = timedelta(days=(number - year)*365)
+    day_one = datetime(year,1,1)
+    date = d + day_one
+    return date
+
 
 
 data = pd.read_csv('stress.csv')
@@ -28,7 +39,7 @@ c = model1.named_steps['linear'].coef_
 
 # print(year(6))
 
- 
+
 
 
 
@@ -40,6 +51,21 @@ print(model.coef_)
 
 critical_year = (7-x_intercept)/slope
 print("Year of critical water shortage:", critical_year)
+ddmmyy = convert_partial_year(critical_year[0])
+#print(ddmmyy)
+
+format = "%a %b %d %Y"
+
+today = datetime.today()
+#print('ISO     :', today)
+
+s = today.strftime(format)
+#print('strftime:', s)
+
+d = datetime.strptime(s, format)
+day_zero = ddmmyy.strftime(format)
+print(day_zero)
+
 
 
 
